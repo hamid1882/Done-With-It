@@ -1,11 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import { 
   StyleSheet, 
   Text, 
   View, 
   SafeAreaView, 
   Image,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  Button,
+  Alert,
+  Platform,
+  StatusBar
   } from 'react-native';
 
 export default function App() {
@@ -28,6 +32,16 @@ export default function App() {
          <TouchableNativeFeedback>
           <View style={{ width: 200, height: 100, backgroundColor:"skyblue"}}></View>
          </TouchableNativeFeedback>
+         <Button
+            title="Hamid here!"
+            color="black"
+            onPress={() => Alert.alert("Hamidoo","Hamid your alert",[
+              {
+                text: "Hello",
+                style: { backgroundColor: "red", color: "red"}
+              }
+            ])}
+         />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -37,7 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
