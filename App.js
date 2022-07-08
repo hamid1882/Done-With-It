@@ -1,12 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  SafeAreaView, 
+  Image,
+  TouchableNativeFeedback
+  } from 'react-native';
 
 export default function App() {
+
+  const handlePress = () => {
+    console.log("Hamid you pressed")
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
+      <Text numberOfLines={1} onPress={handlePress}>Hello React native- Journey! - Alhamdulillah finnaly you are learning something</Text>
+      <Image
+        blurRadius={10}
+        fadeDuration={1000}
+        source={{
+            width: 200,
+            height: 300,
+            uri: "https://picsum.photos/200/300"
+         }}/>
+         <TouchableNativeFeedback>
+          <View style={{ width: 200, height: 100, backgroundColor:"skyblue"}}></View>
+         </TouchableNativeFeedback>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
