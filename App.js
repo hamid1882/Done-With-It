@@ -1,4 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
+import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
 import { 
   StyleSheet, 
   Text, 
@@ -13,6 +14,10 @@ import {
   } from 'react-native';
 
 export default function App() {
+
+  const dimensions = useDimensions("screen");
+
+  const orientation = useDeviceOrientation();
 
   const handlePress = () => {
     console.log("Hamid you pressed")
