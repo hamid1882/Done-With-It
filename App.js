@@ -1,48 +1,88 @@
-// import { StatusBar } from 'expo-status-bar';
-import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
-import { 
-  StyleSheet, 
+import { useState,useRef } from 'react';
+import {
   Text, 
-  View, 
-  SafeAreaView,
-  Platform,
-  StatusBar,
+  View,
+  StyleSheet,
+  Pressable,
   Image,
-  TextInput,
-  Button
+  DrawerLayoutAndroid,Button,
+  SafeAreaView
   } from 'react-native';
-import Topbar from './Components/Topbar';
+import Homepage from "./Components/Homepage";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Main from './Components/Main';
+
 
 export default function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Topbar style={styles} />
-      <View style={styles.WelcomeBar}>
-        <Text style={styles.Text100}>Welcome to Edyoda!</Text>
-        <Text style={styles.Text100}>Login to Continue Learning...</Text>
-      </View>
-      <View style={styles.LoginBar}>
-        <TextInput style={{
-            borderBottomWidth: 1,
-            borderBottomColor: "#ccc",
-           }} 
-           placeholder='Username/Email' />
-           <TextInput style={{
-            borderBottomWidth: 1,
-            borderBottomColor: "#ccc",
-           }} 
-           placeholder='Password' />
-        <Button title='Login'/>
-      </View>
+  
+
+  const Stack = createNativeStackNavigator();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const drawer = useRef(null);
+
+  const handleDrawer = (event) => {
+    if(event === "opened") {
+      setIsDrawerOpen(true);
+    } else if(event === "closed") {
+      setIsDrawerOpen(false)
+    }
+  }
+
+  const navigationView = () => (
+    <SafeAreaView>
+      <Text>hamid</Text>
+      <Button
+        title="Close drawer"
+        onPress={() => drawer.current.closeDrawer()}
+      />
     </SafeAreaView>
   );
-}
+
+  return (
+    <NavigationContainer>
+      <>
+       <DrawerLayoutAndroid
+               ref={drawer}
+               drawerWidth={200}
+               drawerPosition={"right"}
+               renderNavigationView={navigationView}
+               drawerBackgroundColor="brown"
+               onDrawerOpen={() => handleDrawer("opened")}
+               onDrawerClose={() => handleDrawer("closed")}
+               >
+           <Stack.Navigator>
+          <Stack.Screen 
+            name="Home" 
+            component={Main}
+          />
+             <Stack.Screen 
+              name="Homepage" 
+              component={Homepage} 
+              options={{
+                headerRight: () => (
+                  <Pressable 
+                  onPress={() => drawer.current.openDrawer()}
+                  >
+                  <Image 
+                    source={isDrawerOpen ? require("./assets/menu-active.png") : require("./assets/menu-not-active.png")} 
+                    style={styles.MoreIcon} />
+                </Pressable>
+                ),
+              }}
+              />
+           </Stack.Navigator>
+         </DrawerLayoutAndroid>
+      </>
+   </NavigationContainer>
+  )
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#efefef",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   Topbar: {
     width: "100%",
@@ -50,37 +90,17 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexDirection: "row"
+    flexDirection: "row",
+    marginBottom: -40
   },
   Logo: {
     color: "#0084ff",
-    fontSize: 30,
-    fontFamily: "roboto",
+    fontSize: 20,
+    fontFamily: "sans-serif",
     fontWeight: "bold"
   },
   MoreIcon: {
-    width: 40,
-    height: 40,
+    width: 25,
+    height: 25,
   },
-  WelcomeBar: {
-    flex: 0.1,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  Text100: {
-    fontFamily: "sans-serif",
-    fontSize: 20,
-    letterSpacing: 0.5,
-  },
-  LoginBar: {
-    flex: 0.5,
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    margin: 15,
-    marginRight: 30,
-    marginLeft: 30,
-    paddingLeft: 50,
-    paddingRight: 50,
-  }
 });
