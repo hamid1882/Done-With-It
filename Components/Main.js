@@ -1,23 +1,31 @@
 import React, {useState, useRef} from "react";
 import { 
-    SafeAreaView, View, DrawerLayoutAndroid, Text, Pressable, Image, StyleSheet, StatusBar, Button
+     View, Text, StyleSheet, Button, 
    } from 'react-native';
    import LoginBar from "./LoginBar";
 
 export default function Main({navigation}) {
   const [userName, setUserName] = useState("Hamid");
-  const [userPassword, setUserPassword] = useState("12345");
+  const [userPassword, setUserPassword] = useState("Hamid");
 
-  const handleLoginPress = (props) => {
-    if(userName === "Hamid" && userPassword == 12345) {
-      navigation.navigate('Homepage', { name: 'Hamid' })  
+  const ref = useRef(null);
+
+
+  const handleLoginPress = () => {
+    if(userName === "Hamid" && userPassword === "Hamid") {
+      // navigation.navigate('Homepage', { name: 'Hamid' })
+      // navigation.navigate('Homepage', { name: 'Hamid' });
+      // ref.current && ref.current.navigate("Homepage");
+      // console.log(ref.current)
+      return;
     } 
   }
+
 
   return (
     <View style={styles.container}>
         <View style={styles.WelcomeBar}>
-          <Text style={styles.Text200}>Welcome to the Task Management App</Text>
+          <Text style={styles.Text200}>Task Management App</Text>
           <Text style={styles.Text100}>Login to Connect with your Task Management Buddy!</Text>
         </View>
         <LoginBar
@@ -28,6 +36,10 @@ export default function Main({navigation}) {
             userPassword={userPassword}
             handleLoginPress={handleLoginPress}
          />
+        <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Homepage')}
+      />
       </View>
   );
 }
@@ -51,12 +63,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   Text200: {
-    fontFamily: "sans-serif",
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
     letterSpacing: 0.5,
     textAlign: "center",
-    lineHeight: 40,
+    lineHeight: 35
   },
   LoginBar: {
     flex: 0.5,

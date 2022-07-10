@@ -6,7 +6,8 @@ import {
   Pressable,
   Image,
   DrawerLayoutAndroid,Button,
-  SafeAreaView
+  SafeAreaView,
+  Platform
   } from 'react-native';
 import Homepage from "./Components/Homepage";
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,6 +19,8 @@ export default function App() {
   
 
   const Stack = createNativeStackNavigator();
+
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const drawer = useRef(null);
@@ -31,18 +34,20 @@ export default function App() {
   }
 
   const navigationView = () => (
-    <SafeAreaView>
+    <View>
       <Text>hamid</Text>
       <Button
         title="Close drawer"
         onPress={() => drawer.current.closeDrawer()}
       />
-    </SafeAreaView>
+    </View>
   );
 
+  const ref = useRef(null);
+
   return (
-    <NavigationContainer>
-      <>
+    <View style={{ flex: 1 }}>
+     <NavigationContainer ref={ref}>
        <DrawerLayoutAndroid
                ref={drawer}
                drawerWidth={200}
@@ -52,30 +57,43 @@ export default function App() {
                onDrawerOpen={() => handleDrawer("opened")}
                onDrawerClose={() => handleDrawer("closed")}
                >
-           <Stack.Navigator>
-          <Stack.Screen 
-            name="Home" 
-            component={Main}
-          />
+           <Stack.Navigator options={{
+                animationEnabled: Platform.OS == 'android' ? false : true,
+              }}>
+            <Stack.Screen 
+              name="Login Page" 
+              component={Main}
+              options={{
+                title: "Login",
+                headerStyle: {
+                  backgroundColor: '#efefef',
+                },
+                headerTintColor: '#000',
+                headerTitleStyle: {
+                  fontWeight: 'bold',fontFamily: 'sans-serif'
+                },
+              }}
+            />
              <Stack.Screen 
               name="Homepage" 
-              component={Homepage} 
+              component={Homepage}
               options={{
-                headerRight: () => (
-                  <Pressable 
-                  onPress={() => drawer.current.openDrawer()}
-                  >
-                  <Image 
-                    source={isDrawerOpen ? require("./assets/menu-active.png") : require("./assets/menu-not-active.png")} 
-                    style={styles.MoreIcon} />
-                </Pressable>
-                ),
+                title:"Homepage",
+                // headerRight: () => (
+                //   <Pressable 
+                //   onPress={() => drawer.current.openDrawer()}
+                //   >
+                //   <Image 
+                //     source={isDrawerOpen ? require("./assets/menu-active.png") : require("./assets/menu-not-active.png")} 
+                //     style={styles.MoreIcon} />
+                // </Pressable>
+                // ),
               }}
               />
            </Stack.Navigator>
          </DrawerLayoutAndroid>
-      </>
-   </NavigationContainer>
+    </NavigationContainer>
+   </View>
   )
 };
 

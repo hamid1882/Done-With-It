@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button, Text, View, StyleSheet } from 'react-native'
 
-export default function Homepage({navigate, route}) {
+export default function Homepage() {
   return (
     <View style={{height: "100%"}}>
-      <Text>Welcome {route.params.name}!</Text>
+      <Text>Welcome!</Text>
       <View style={styles.addNewTaskBar} >
          <Button title={"Create a new Task"} />
       </View>
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     width: "35%",
     height: "20px",
     position: 'absolute',
-    bottom: -100,
+    bottom: 0,
     left: 130,
     borderRadius: 100,
     border: "1px solid black"
